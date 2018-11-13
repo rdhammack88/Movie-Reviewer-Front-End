@@ -1,0 +1,32 @@
+<div class="row">
+	<div class="col s6 m4 l3  movie" *ngFor="let movie of movies">
+		<!-- card-panel -->
+		<div class="card hoverable">
+			<div class="card-image">
+				<img src="{{ moviePoster }}{{ movie.poster_path }}" class="movie-poster" />
+				<!-- <span class="card-title">{{ movie.title }}</span> -->
+			</div>
+			<div class="card-content">
+				<span class="card-title activator grey-text text-darken-4">
+					<a href="#" class="movie-title">{{ movie.title }}</a>
+					<i class="material-icons right">more_vert</i>
+				</span>
+			</div>
+			<div class="card-reveal">
+				<span class="card-title grey-text text-darken-4">
+					<i class="material-icons right">close</i>
+					<a href="#" class="movie-title">{{ movie.title }}</a>
+				</span>
+				<p class="movie-overview">{{ movie.overview }}</p>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row center">
+	<div class="col s6">
+		<button class="btn waves-effect" (click)="changePage('prev')">Prev</button>
+	</div>
+	<div class="col s6">
+		<button class="btn waves-effect" (click)="changePage('next')">Next</button>
+	</div>
+</div>
