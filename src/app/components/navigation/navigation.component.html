@@ -1,0 +1,41 @@
+<!-- RESPONSIVE WITH SIDE MENU -->
+<nav class="blue darken-3">
+	<div class="container">
+		<div class="nav-wrapper">
+			<a href="#" class="brand-logo left">{{ title.toUpperCase() }}</a>
+			<a href="#!" class="button-collapse right" data-activates="mobile-nav" (click)="sideNav()">
+				<i class="material-icons">menu</i>
+			</a>
+			<ul class="right hide-on-med-and-down">
+				<li><a href="#">Home</a></li>
+				<li><a href="#">About</a></li>
+				<li><a href="#">Contact</a></li>
+
+				<!-- DROPDOWN TRIGGER -->
+				<li>
+					<a href="#!" class="dropdown-button" data-activates="my-dropdown">Dropdown <i class="material-icons left">arrow_drop_down</i>
+					</a>
+				</li>
+				<!-- BUTTON LINK -->
+				<!-- <li><a class="btn waves-effect waves-light">Login</a></li> -->
+				<!-- ICON LINK -->
+				<!--
+					<li>
+						<a href="#"> <i class="material-icons">person</i> </a>
+					</li>
+				-->
+			</ul>
+			<ul class="side-nav right" id="mobile-nav">
+				<li><a href="#">Home</a></li>
+				<li><a href="#">About</a></li>
+				<li><a href="#">Contact</a></li>
+			</ul>
+		</div>
+	</div>
+</nav>
+<!-- DROPDOWN MENU -->
+<ul id="my-dropdown" class="dropdown-content">
+	<li><a href="#">Link 1</a></li>
+	<li><a href="#">Link 2</a></li>
+	<li><a href="#">Link 3</a></li>
+</ul>
