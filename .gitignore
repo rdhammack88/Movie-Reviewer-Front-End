@@ -7,7 +7,6 @@
 
 # dependencies
 /node_modules
-./package-lock.json
 
 # IDEs and editors
 /.idea
@@ -35,7 +34,7 @@ yarn-error.log
 testem.log
 /typings
 
-./test_files
+test_files
 
 # System Files
 .DS_Store
