@@ -1,15 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
+import { map } from 'rxjs/operators';
 
-import { MovieList } from '../interfaces/movie-list';
+import { MediaList } from '../interfaces/media-list';
+import { Observable } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root'
 })
-export class MovieService implements MovieList {
-	movies: MovieList;
-	page = '3';
+export class MediaService {
+	// implements MovieList
+	media: Object;
+	private mediaItems: MediaList[] = [];
+	page = '1';
 
 	// page: number = 1;
 	// page: any = this.route.params.subscribe(response => console.log(response.page));
@@ -17,47 +21,65 @@ export class MovieService implements MovieList {
 	private API_KEY = 'ce1ba8ff0b6f40898caf5bd2a5c73e6b';
 	private imageBaseUrl: string = '';
 	private imageSizes: { backdrop?: string[]; poster?: string[] } = {};
-	private movieUrls = {
+	private mediaUrls = {
 		config: 'https://api.themoviedb.org/3/configuration',
+		movie: 'https://api.themoviedb.org/3/movie',
 		nowPlaying: 'https://api.themoviedb.org/3/movie/now_playing',
 		popularMovies: 'https://api.themoviedb.org/3/movie/popular',
 		popularTv: 'https://api.themoviedb.org/3/tv/popular',
 		search: 'https://api.themoviedb.org/3/search/movie',
+		tvShow: 'https://api.themoviedb.org/3/tv',
 		upcoming: 'https://api.themoviedb.org/3/movie/upcoming'
 	};
+	error: string;
 
-	constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router) {
-		// this.setImageConfiguration();
+	constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router) {}
+
+	/** Get Media Details */
+	getMediaDetails(url: string, movieId?: string) {
+		// console.log('Getting Movie');
+		const params = new HttpParams().set('api_key', this.API_KEY);
+		return this.http.get(`${this.mediaUrls[url]}/${movieId}`, { params });
 	}
 
-	/** Get Movies */
-	getMovies() {
+	/** Return Media Array */
+	// returnMediaItem(page) {
+	// 	// return '123 Test';
+	// 	this.page = page;
+	// 	this.getMediaDetails('popularMovies');
+	// 	console.log(typeof this.media);
+	// 	return this.media;
+	// }
+
+	/** Get Media */
+	getMedia(url: string) {
+		console.log('Getting Movies');
 		const params = new HttpParams().set('api_key', this.API_KEY).set('page', this.page);
-		return this.http.get(this.movieUrls.nowPlaying, { params }).subscribe(movies => {
-			this.movies = movies['results'];
-			// this.movieList.dates = movies['dates'];
-			// this.movieList.totalPages = movies['total_pages'];
-			// this.movieList.totalResults = movies['total_results'];
-			console.log(this.movies);
-			// console.log(this.movieList.movies);
-			// console.log(this.movieList);
-			console.log('Get Movies Method called from service file');
-		});
+		return this.http.get(this.mediaUrls[url], { params });
 	}
+
+	/** Return Media Array */
+	// returnMediaItems(page) {
+	// 	// return '123 Test';
+	// 	this.page = page;
+	// 	this.getMedia('popularMovies');
+	// 	console.log(typeof this.mediaItems);
+	// 	return this.mediaItems;
+	// }
 
 	/** Change page number */
-	// changePage(pageChange) {
-	// 	if (pageChange === 'next') {
-	// 		this.page++;
-	// 	} else if (pageChange === 'prev') {
-	// 		this.page--;
-	// 	}
-	// 	console.log(this.page);
-	// 	this.getMovies();
-	// 	console.log(this.page);
-	// 	// this.route.params.subscribe(response => console.log(response.page));
-	// 	// this.route.params.page;
-	// }
+	changePage(pageChange) {
+		if (pageChange === 'next') {
+			// this.page++;
+		} else if (pageChange === 'prev') {
+			// this.page--;
+		}
+		console.log(this.page);
+		// this.getMedia();
+		console.log(this.page);
+		// this.route.params.subscribe(response => console.log(response.page));
+		// this.route.params.page;
+	}
 
 	// get currentMovie() {
 	// 	return this.selectedMovie$;
@@ -82,6 +104,7 @@ export class MovieService implements MovieList {
 	// 		)
 	// 	);
 	// }
+
 	// setImageConfiguration() {
 	// 	const params = new HttpParams().set('api_key', this.apiKey);
 	// 	this.http
@@ -98,16 +121,16 @@ export class MovieService implements MovieList {
 	// 		});
 	// }
 
-	// createPhotoUrl(path: string, isBackdrop: boolean) {
-	// 	if (!path) {
-	// 		return '';
-	// 	}
-	// 	const { backdrop, poster } = this.imageSizes;
+	createPhotoUrl(path: string, isBackdrop: boolean) {
+		if (!path) {
+			return '';
+		}
+		const { backdrop, poster } = this.imageSizes;
 
-	// 	// const imageSize = isBackdrop ? backdrop[0] : poster[-1];
-	// 	const imageSize = isBackdrop ? backdrop[0] : poster[this.imageSizes.poster.length - 1];
-	// 	// const imageSize = isBackdrop ? this.imageSizes.backdrop[0] : this.imageSizes.poster[-1]
-	// 	// const imageSize = isBackdrop ? this.imageSizes.backdrop[0] : this.imageSizes.poster[this.imageSizes.poster.length - 1]
-	// 	return `${this.imageBaseUrl}${imageSize}${path}`;
-	// }
+		// const imageSize = isBackdrop ? backdrop[0] : poster[-1];
+		const imageSize = isBackdrop ? backdrop[0] : poster[this.imageSizes.poster.length - 1];
+		// const imageSize = isBackdrop ? this.imageSizes.backdrop[0] : this.imageSizes.poster[-1]
+		// const imageSize = isBackdrop ? this.imageSizes.backdrop[0] : this.imageSizes.poster[this.imageSizes.poster.length - 1]
+		return `${this.imageBaseUrl}${imageSize}${path}`;
+	}
 }
