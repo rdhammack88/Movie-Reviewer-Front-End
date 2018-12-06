@@ -4,16 +4,24 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MovieComponent } from './components/movies/movie/movie.component';
-import { MovieListComponent } from './components/movies/movie-list/movie-list.component';
-import { MovieService } from './services/movie.service';
+import { MediaCardComponent } from './components/media/media-cards/media-card.component';
+import { MediaListComponent } from './components/media/media-list/media-list.component';
+import { MediaService } from './services/media.service';
 import { SummaryPipe } from './pipes/summary.pipe';
 import { HomeComponent } from './components/home/home.component';
+import { NavigationComponent } from './components/navigation/navigation.component';
 
 @NgModule({
-	declarations: [AppComponent, MovieComponent, MovieListComponent, SummaryPipe, HomeComponent],
+	declarations: [
+		AppComponent,
+		MediaCardComponent,
+		MediaListComponent,
+		SummaryPipe,
+		HomeComponent,
+		NavigationComponent
+	],
 	imports: [BrowserModule, AppRoutingModule, HttpClientModule],
-	providers: [MovieService],
+	providers: [MediaService],
 	bootstrap: [AppComponent]
 })
 export class AppModule {}
