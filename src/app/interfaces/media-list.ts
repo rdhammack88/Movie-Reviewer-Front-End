@@ -1,7 +1,8 @@
-export interface MovieList {
+export interface MediaList {
 	dates?: Object;
 	page?: string;
-	movies?: Object;
+	movies?: Array<any>;
+	// movies?: Object;
 	totalPages?: string;
 	totalResults?: string;
 	moviePoster?: string;
