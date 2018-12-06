@@ -1,0 +1,9 @@
+<!-- <div class="container"> -->
+<div class="home">
+	<h4>Now Playing</h4>
+	<!-- <media-list [mediaUrl]="mediaUrls.theater"></media-list> -->
+	<!-- <media-list [mediaUrl]="mediaUrls.theater"></media-list> -->
+	<!-- <media-list></media-list> -->
+	<media-list *ngFor="let url of mediaUrls" [mediaUrl]="url"></media-list>
+</div>
+<!-- </div> -->
