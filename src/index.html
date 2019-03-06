@@ -11,8 +11,8 @@
 	</head>
 	<body>
 		<app-root></app-root>
-		<script>
-			// $(document).ready(function() {
+		<!-- <script async>
+			$(document).ready(function() {
 			// 	$('.dropdown-button').dropdown({
 			// 		constrainWidth: false,
 			// 		hover: true,
@@ -20,8 +20,14 @@
 			// 		alignment: 'left'
 			// 	});
 			// 	/* Initialize mobile dropdown menu */
-			// 	$('.sidenav-trigger').sideNav();
-			// });
+				$('.sidenav-trigger').sideNav();
+			});
+		</script> -->
+
+		<script>
+			document.addEventListener('DOMContentLoaded', function () {
+				$('.button-collapse').sideNav();
+			});
 		</script>
 	</body>
 </html>

@@ -1,4 +1,5 @@
 export interface Media {
+	// Movie
 	backdrop_path?: string | null;
 	backdropUrl?: string;
 	genres?: Array<Object>;
@@ -12,4 +13,18 @@ export interface Media {
 	release_date?: Date;
 	runtime?: number | null;
 	title?: string;
+
+	adult?: boolean;
+	genre_ids?: Array<number>;
+	popularity?: number;
+	vote_count?: number;
+	vote_average?: number;
+	video?: boolean;
+
+	// TV
+	name?: string;
+	original_name?: string;
+	origin_country?: Array<string>;
+	first_air_date?: Date;
+
 }

@@ -51,7 +51,7 @@ export class MediaListComponent implements OnInit {
 	/** Get Media */
 	getMedia() {
 		// this.mediaService.getMedia('nowPlaying').subscribe(media => {
-		this.mediaService.getMedia('popularTv').subscribe(media => {
+		this.mediaService.getMedia('nowPlaying').subscribe(media => {
 			// this.movies.push(movies.results);////////////////////////////////////////
 			this.mediaItems = media['results'];
 			this.dates = media['dates'];

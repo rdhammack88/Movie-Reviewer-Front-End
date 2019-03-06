@@ -1,4 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
+import * as $ from 'jquery';
+import 'materialize-css';
 
 @Component({
 	selector: 'app-root',
@@ -14,7 +16,7 @@ export class AppComponent {
 	// 	upcoming: 'upcoming'
 	// };
 
-	// constructor() {
-	// 	console.log(this.searchType);
-	// }
+	constructor() {
+		// console.log(this.searchType);
+	}
 }

@@ -1,0 +1,19 @@
+.button-collapse {
+	padding: 0 10px 5px;
+
+	* {
+		font-size: 3rem;
+	}
+}
+
+.side-nav {
+	padding-top: 3rem;
+
+	li a {
+		&:hover {
+			color: #1565C0;
+			background-color: #ddd;
+			border-left: 5px solid #1565C0;
+		}
+	}
+}
