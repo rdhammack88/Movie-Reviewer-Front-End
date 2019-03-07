@@ -15,6 +15,10 @@ import { SummaryPipe } from './pipes/summary.pipe';
 import { HomeComponent } from './components/home/home.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { AboutComponent } from './components/about/about.component';
+import { MoviesListComponent } from './components/movies-list/movies-list.component';
+import { TvListComponent } from './components/tv-list/tv-list.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
 	declarations: [
@@ -24,7 +28,11 @@ import { AboutComponent } from './components/about/about.component';
 		SummaryPipe,
 		HomeComponent,
 		NavigationComponent,
-		AboutComponent
+		AboutComponent,
+		MoviesListComponent,
+		TvListComponent,
+		NotFoundComponent,
+		FooterComponent
 	],
 	imports: [BrowserModule, AppRoutingModule, HttpClientModule, MaterializeModule],
 	providers: [MediaService],

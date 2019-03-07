@@ -20,7 +20,7 @@ export class NavigationComponent implements OnInit, AfterViewInit {
 
 	ngAfterViewInit() {
 		document.addEventListener('DOMContentLoaded', function () {
-			$('.button-collapse').sideNav(); //.css('background-color', 'red'); //.sideNav();
+			// $('.button-collapse').sideNav(); //.css('background-color', 'red'); //.sideNav();
 		});
 	}
 

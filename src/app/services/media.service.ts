@@ -33,6 +33,8 @@ export class MediaService {
 	};
 	error: string;
 
+	mediaItemsList = {};
+
 	constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router) {}
 
 	/** Get Media Details */

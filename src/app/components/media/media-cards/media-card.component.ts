@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+
 
 import { MediaService } from 'src/app/services/media.service';
 import { Media } from 'src/app/interfaces/media';
@@ -12,7 +14,10 @@ import { Media } from 'src/app/interfaces/media';
 export class MediaCardComponent implements OnInit {
 	mediaId: string;
 	mediaData: Media;
-	constructor(private mediaService: MediaService, private route: ActivatedRoute) {
+	constructor(
+		private mediaService: MediaService,
+		private route: ActivatedRoute,
+		private location: Location) {
 		// console.log(this.route.snapshot.paramMap.get('id'));
 		this.mediaId = this.route.snapshot.paramMap.get('id');
 		// console.log(this.mediaId);

@@ -1,57 +1,71 @@
-<div class="row">
-	<!-- s6 m4 xl3 -->
-	<div
-		class="col s4 mediaItem"
-		[class.m2]="route === 'home'"
-		[class.m3]="route !== 'home'"
-		*ngFor="let mediaItem of mediaItems"
-	>
-		<!-- card-panel -->
-		<div class="card hoverable" [class.no-padding]="route === 'home'">
-			<div class="card-image">
-				<a href="/media/{{mediaItem.id}}">
-					<img
-						src="{{ mediaItemPoster }}{{ mediaItem.poster_path }}"
-						class="mediaItem-poster"
-					/>
-					<span class="card-title mediaItem-title-link" *ngIf="route !== 'home'">{{
-						mediaItem.title
-					}}</span>
-				</a>
-			</div>
-			<div class="card-content" *ngIf="route !== 'home'">
-				<!--
-					<a href="#!">
-						<span class="card-title">{{ mediaItem.title }}</span>
+<div class="section media-list__wrapper">
+	<!-- media-list__wrapper -->
+	<h4>{{ mediaCategories[mediaPathUrl] }}</h4>
+	<div class="row media-list__row">
+		<!-- s6 m4 xl3 -->
+
+		<!-- [class.m3]="route === 'home'" [class.m2]="route !== 'home'" -->
+		<div class="col s6 m4 l3 media-item"
+			*ngFor="let mediaItem of mediaItemsList.mediaItems">
+			<!-- card-panel -->
+			<div class="card hoverable" [class.sno-padding]="route === 'home'">
+				<div class="card-image">
+					<a href="/media/{{mediaItem.id}}">
+						<img src="{{ mediaItemPoster }}{{ mediaItem.poster_path }}" class="mediaItem-poster" />
+						<!-- <span class="card-title mediaItem-title-link" *ngIf="route !== 'home'">{{
+							mediaItem.title
+						}}</span> -->
 					</a>
-				-->
-				<span class="activator grey-text text-darken-4">
-					<!--
-						<a href="#" class="mediaItem-title" *ngIf="route === 'home'">{{
-							mediaItem.title | summary: 10
-						}}</a>
-					-->
-					<i class="material-icons right pointer">more_vert</i>
-				</span>
-			</div>
-			<div class="card-reveal">
-				<!-- card-title -->
-				<span class="card-title grey-text text-darken-4" *ngIf="route !== 'home'">
-					<i class="material-icons right pointer">close</i>
-				</span>
-				<a href="/media/{{mediaItem.id}}" class="mediaItem-title">{{ mediaItem.title }}</a>
-				<p class="mediaItem-overview" *ngIf="route !== 'home'">
-					{{ mediaItem.overview | summary: 110 }} <a href="#!">Read More</a>
-				</p>
+				</div>
+				<div class="card-content" *ngIf="route === 'home'">
+
+						<a href="/media/{{mediaItem.id}}" class="media-title">
+							<span>{{ mediaItem.title || mediaItem.name }}</span>
+						</a>
+
+						<span class="add_watchlist_media" title="Add to watchlist">
+							<i class="material-icons">add_circle_outline</i>
+						</span> <!-- check_circle -->
+						<span class="add_favorite_media" title="Add to favorites">
+							<i class="material-icons">bookmark_border</i>
+						</span> <!-- bookmark -->
+
+					<!-- <span class="activator grey-text text-darken-4">
+
+							<a href="#" class="mediaItem-title" *ngIf="route === 'home'">{{
+								mediaItem.title | summary: 10
+							}}</a>
+
+						<i class="material-icons right pointer">more_vert</i>
+					</span> -->
+				</div>
+				<div class="card-reveal">
+					<!-- card-title -->
+					<span class="card-title grey-text text-darken-4" *ngIf="route !== 'home'">
+						<i class="material-icons right pointer">close</i>
+					</span>
+					<a href="/media/{{mediaItem.id}}" class="mediaItem-title">{{ mediaItem.title }}</a>
+					<p class="mediaItem-overview" *ngIf="route !== 'home'">
+						{{ mediaItem.overview | summary: 110 }} <a href="#!">Read More</a>
+					</p>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
-<div class="row center" *ngIf="route !== 'home'">
-	<div class="col s6">
-		<button class="btn waves-effect" (click)="changePage('prev')">Prev</button>
+	<div class="row center" *ngIf="route !== 'home'">
+		<div class="col s6">
+			<button class="btn waves-effect" (click)="changePage('prev')">Prev</button>
+		</div>
+		<div class="col s6">
+			<button class="btn waves-effect" (click)="changePage('next')">Next</button>
+		</div>
 	</div>
-	<div class="col s6">
-		<button class="btn waves-effect" (click)="changePage('next')">Next</button>
+	<div class="show-more-media center-align" *ngIf="route === 'home'">
+		<a href="/{{ mediaPathUrl }}">
+			Show More
+			<i class="material-icons">chevron_right</i>
+		</a>
 	</div>
+	<br>
+	<div class="divider"></div>
 </div>

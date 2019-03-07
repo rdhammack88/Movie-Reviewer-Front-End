@@ -17,14 +17,15 @@ export class HomeComponent implements OnInit {
 	// 	popTv: 'popularTv',
 	// 	upcoming: 'upcoming'
 	// };
-	mediaUrls: Array<string> = ['nowPlaying', 'popularMovies', 'popularTv', 'upcoming'];
+
+	mediaUrls: Array<string> = ['upcoming', 'nowPlaying', 'popularMovies', 'popularTv'];
 
 	constructor() {
-		console.log(this.mediaUrls);
+		// console.log(this.mediaUrls);
 	}
 
 	ngOnInit() {
-		console.log(this.mediaUrls);
+		// console.log(this.mediaUrls);
 	}
 	// movies: MovieList[] = [];
 	// dates: Object;
