@@ -34,8 +34,10 @@ yarn-error.log
 testem.log
 /typings
 
-test_files
-
 # System Files
 .DS_Store
 Thumbs.db
+
+# Custom Ignores
+test_files
+Project_Todos.md
