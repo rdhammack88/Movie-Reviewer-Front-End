@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 // import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -11,38 +11,9 @@ import { Media } from 'src/app/interfaces/media';
 	templateUrl: './media-list.component.html',
 	styleUrls: ['./media-list.component.scss']
 })
-export class MediaListComponent implements OnInit, AfterViewInit {
-	// route = this.activatedRoute.snapshot.url[0].path || 'home';
-	// @Input() mediaPathUrl: string = route === 'home' ? mediaPathUrl : route;
-
-	// searchTypes: Object = {
-	// 	theater: 'nowPlaying',
-	// 	popMovies: 'popularMovies',
-	// 	popTv: 'popularTv',
-	// 	upcoming: 'upcoming'
-	// };
-
-
-	// mediaItemsList = {
-	// 	mediaItems,
-	// 	dates,
-	// 	page,
-	// 	totalPages,
-	// 	totalResults,
-	// 	mediaItemPoster
-	// };
-
+export class MediaListComponent implements OnInit {
 
 	@Input() mediaPathUrl: string;
-
-
-	// mediaItemsList: {
-	// 	mediaItems: MediaList[],
-	// 	dates: Object,
-	// 	page: number,
-	// 	totalPages: number,
-	// 	totalResults: number,
-	// }
 
 	mediaItemsList = {};
 
@@ -53,173 +24,175 @@ export class MediaListComponent implements OnInit, AfterViewInit {
 		'popularTv': 'Popular Tv'
 	}
 
-	route = this.activatedRoute.snapshot.url.length ? this.activatedRoute.snapshot.url[0].path : 'home';
-	mediaItemPoster: string = 'https://image.tmdb.org/t/p/w200';
+	routePath = this.route.snapshot.url.length ? this.route.snapshot.url[1].path : 'home';
 
-	// path = this.activatedRoute.snapshot.url.length ? this.activatedRoute.snapshot.url[0].path : '';
-	// route = this.path ? this.path : 'home';
+	currentPage: number = this.route.snapshot.url.length ? Number(this.route.snapshot.url[3].path) : 1;
 
 	mediaItems: MediaList[] = [];
+	mediaType: string;
 	dates: Object;
-	page: number = 1;
 	totalPages: number = 0;
+	totalPagesArr: Array<any>;
 	totalResults: number = 0;
+	displayTotalResults: Array<number>;
+	mediaItemPoster: string = 'https://image.tmdb.org/t/p/w200';
 
-
-
-
-
-	// // page: string = this.activatedRoute.url.subscribe(url => url[1].path);
-	// // page: Object = this.route.params.subscribe(response => console.log(response.page));
-
-	// path; // = this.activatedRoute.url; //.subscribe(url => url[1].path);
-
-	// route = this.path ? this.activatedRoute.url.subscribe(url => url[1].path) : 'home';
-
-	// mediaPathUrls: Array<string> = ['nowPlaying', 'popularMovies', 'popularTv', 'upcoming'];
-
-	// path;
-	// route = this.path ? this.activatedRoute.url.subscribe(url => url[1].path) : 'home';
 
 	constructor(
 		private mediaService: MediaService,
-		private activatedRoute: ActivatedRoute
-		// private http: HttpClient,
-	) {
-		// console.log(this.mediaPathUrl);
-		// this.getMedia();
-
-		// this.path = this.activatedRoute.url.subscribe(url => url); //[1].path);
-		// console.log(this.route);
-		// console.log(this.path);
-
-		// console.log(this.activatedRoute.url.subscribe(url => url));
-		// console.log(this.mediaPathUrl);
-
-		// console.log('movie-list-component');
-
-		// console.log(this.activatedRoute);
-		// console.log(this.activatedRoute.url);
-
-		// console.log(this.activatedRoute.snapshot.url[0].path); //.subscribe(url => url[1].path))
-
-
-		// console.log(this.activatedRoute.snapshot);
-
-		// this.mediaPathUrl = this.route === 'home' ? this.mediaPathUrl : this.route;
-		// console.log(this.route);
-	}
+		private route: ActivatedRoute
+	) {}
 
 	ngOnInit() {
-		this.mediaPathUrl = this.route === 'home' ? this.mediaPathUrl : this.route;
-		this.getMedia(this.mediaPathUrl);
-		console.log(this.route);
-		console.log(this.mediaPathUrl);
-		console.log(this.activatedRoute.snapshot);
+		/**
+		 * If routePath is not the homepage, reset mediaPathUrl to the routePath path
+		 */
+		this.mediaPathUrl = this.routePath === 'home' ? this.mediaPathUrl : this.routePath;
 
-		// this.mediaItemsList = {
-		// 	mediaItems: this.mediaItems,
-		// 	dates: this.dates,
-		// 	page: this.page,
-		// 	totalPages: this.totalPages,
-		// 	totalResults: this.totalResults,
-		// 	mediaItemPoster: this.mediaItemPoster
-		// }
-		console.log(this.mediaItemsList);
+		/**
+		 * Request data from the api server to return
+		 * the requested data based on the url input
+		 */
+		this.getMedia(this.mediaPathUrl, String(this.currentPage));
+
+		// this.displayTotalResults = [
+		// 	(this.currentPage * this.mediaItems.length) - 19,
+		// 	this.currentPage * this.mediaItems.length
+		// ]
+
+		// this.displayTotalResults = [...this.mediaService.displayTotalResults];
+
+		// this.displayTotalResults = [
+		// 	this.currentPage * (this.mediaItems.length - 19),
+		// 	this.currentPage * this.mediaItems.length
+		// ]
+
+
+
+		////////////////////////////////////////////////////////
+		////////////////////////////////////////////////////////
+
+		/** DEBUGGING */
+		console.log(`Media Categories:\n\t\t ${Object.keys(this.mediaCategories)}\n\t\t ${Object.values(this.mediaCategories)}`);
+		console.log(`Snapshot of Route Params:\t\t ${this.route.snapshot}`);
+		console.log(`Page Number:\t\t\t\t ${this.currentPage}`);
+
+		/**
+		 * Should return the same and should match the
+		 * following console.log of the url argument
+		 * for getMedia method
+		 */
+		console.log(`Route:\t\t\t\t\t\t ${this.routePath} \nInput Media Path Url:\t\t ${this.mediaPathUrl}`);
+
+		////////////////////////////////////////////////////////
+		////////////////////////////////////////////////////////
 	}
 
-	ngAfterViewInit() {
-		// var that = this;
 
-
-		// this.mediaItemsList = {
-		// 	mediaItems: this.mediaItems,
-		// 	dates: this.dates,
-		// 	page: this.page,
-		// 	totalPages: this.totalPages,
-		// 	totalResults: this.totalResults,
-		// 	mediaItemPoster: this.mediaItemPoster
-		// }
-
-		// mediaItems: this.mediaItems,
-		// datesmediaItems: this.datesmediaItems,
-		// pagemediaItems: this.pagemediaItems,
-		// totalPagesmediaItems: this.totalPagesmediaItems,
-		// totalResultsmediaItems: this.totalResultsmediaItems,
-		// mediaItemPostermediaItems: this.mediaItemPoster
-
-		// console.log(this.mediaItemsList);
-	}
-
-	formatCategory(str) {
-		// return str.toUpperCase().split(/[A-Z]/)
-	}
+	// convertToArray(num: number) {
+	// 	this.totalPagesArr = this.mediaService.convertToArray(num);
+	// 	// return this.mediaService.convertToArray(num);
+	// }
 
 	/** Get Media */
-	getMedia(url: string) {
-		this.mediaService.getMedia(url).subscribe(media => {
+	getMedia(url: string, page = String(this.currentPage)) {
+		this.mediaService.getMedia(url, page).subscribe(media => {
 			this.mediaItems = media['results'];
 			this.dates = media['dates'];
-			this.page = media['page'];
+			this.currentPage = this.currentPage ? this.currentPage : media['page'];
 			this.totalPages = media['total_pages'];
+			this.totalPagesArr = this.totalPages > 10 ? Array(10) : Array(this.totalPages);
 			this.totalResults = media['total_results'];
 
-			this.mediaItemsList['mediaItems'] = this.mediaItems
-			this.mediaItemsList['dates'] = this.dates
-			this.mediaItemsList['page'] = this.page
-			this.mediaItemsList['totalPages'] = this.totalPages
-			this.mediaItemsList['totalResults'] = this.totalResults
+
+			this.mediaItemsList['mediaPathUrl'] = this.mediaPathUrl;
+			this.mediaItemsList['mediaItems'] = this.mediaItems;
+			this.mediaItemsList['dates'] = this.dates;
+			this.mediaItemsList['currentPage'] = this.currentPage;
+			this.mediaItemsList['totalPages'] = this.totalPages;
+			this.mediaItemsList['totalResults'] = this.totalResults;
+
+			// this.convertToArray(media['total_pages']);
+			// this.totalPagesArr = this.mediaService.convertToArray(this.totalPages);
+
+
+			this.displayTotalResults = [
+				(this.currentPage * this.mediaItems.length) - 19,
+				this.currentPage * this.mediaItems.length
+			]
+
+
+			// this.displayTotalResults = this.currentPage === 1 ? [1, 20] : [
+			// 	(this.currentPage * this.mediaItems.length) + 1,
+			// 	(this.currentPage * this.mediaItems.length) + 19,
+			// ];
+
+			// if (this.currentPage === 1) {
+			// 	this.displayTotalResults = [...this.mediaService.displayTotalResults];
+			// } else {
+			// 	this.displayTotalResults = [
+			// 		this.displayTotalResults[0] + 20,
+			// 		this.displayTotalResults[1] + 20
+			// 	]
+			// }
+
+			// if(this.currentPage === 1) {
+			// 	this.displayTotalResults = [
+			// 		1,
+			// 		20
+			// 	]
+			// } else if (this.currentPage === 2) {
+			// 	this.displayTotalResults = [
+			// 		21,
+			// 		40
+			// 	]
+			// } else {
+			// 	this.displayTotalResults = [
+			// 		((this.currentPage * this.mediaItems.length) + 1) - 20,
+			// 		((this.currentPage * this.mediaItems.length) + 20) - 20,
+			// 	]
+			// }
+
+			// this.displayTotalResults =[...this.mediaService.displayTotalResults];
+
+
+			if (this.mediaItems[0]['title'] !== undefined) {
+				this.mediaType = 'movie';
+			} else if (this.mediaItems[0]['name'] !== undefined) {
+				this.mediaType = 'tv';
+			}
 
 			////// WORKING W/O Above ///////
 			// this.mediaItemsList['mediaItems'] = media['results'];
 			// this.mediaItemsList['dates'] = media['dates'];
-			// this.mediaItemsList['page'] = media['page'];
+			// this.mediaItemsList['currentPage'] = media['page'];
 			// this.mediaItemsList['totalPages'] = media['total_pages'];
 			// this.mediaItemsList['totalResults'] = media['total_results'];
 			////////////////////////////////////////
-			////////////////////////////////////////
 
-			console.log(this.mediaCategories);
-			console.log(url);
-			console.log(media);
-			// this.movies.push(movies.results);
-			// console.log(this.movies);
-			// console.log(movies);
-			////////////////////////////////////////
 
-			// this.mediaItemsList = {
-			// 	mediaItems: media['results'],
-			// 	dates: media['dates'],
-			// 	page: media['page'],
-			// 	totalPages: media['total_pages'],
-			// 	totalResults: media['total_results']
-			// };
-			////////////////////////////////////////
+			////////////////////////////////////////////////////////
+			////////////////////////////////////////////////////////
 
-			// this.mediaItemsList['mediaItemPoster'] = 'https://image.tmdb.org/t/p/w200';
-			// mediaItems: MediaList[] = [];
-			// dates: Object;
-			// page: number = 1;
-			// totalPages: number = 0;
-			// totalResults: number = 0;
-			////////////////////////////////////////
+			/** DEBUGGING */
+			console.log(`Input Url String:\t\t\t ${url}`);
+			console.log(`Return Observable Object:\n\t\t ${Object.keys(media)}`);
+			console.log(`Media Items List Object:\n\t\t ${Object.keys(this.mediaItemsList)}`);
+			console.log(`Total Pages Array:\t\t ${this.totalPagesArr}`);
+			console.log(`Total Pages Array Length:\t\t ${this.totalPagesArr.length}`);
+			console.log(`Total Pages Length:\t\t ${this.totalPages}`);
+			console.log(`Media Type:\t\t\t\t ${this.mediaType}`);
+			console.log(`Page Number:\t\t\t\t ${this.currentPage}`);
 
-			// this.mediaItemsList.mediaItems = media['results'];
-			// this.mediaItemsList.dates = media['dates'];
-			// this.mediaItemsList.page = media['page'];
-			// this.mediaItemsList.totalPages = media['total_pages'];
-			// this.mediaItemsList.totalResults = media['total_results'];
-			////////////////////////////////////////
+			console.log(`Media:\n\t\t ${media}`, media);
+			console.log(`Media Items Length:\n\t\t ${this.mediaItems.length}`);
+			console.log(`Media Items[0] Title:\n\t\t ${this.mediaItems[0]['title']}`);
+			// ${Object.keys(this.mediaItems)}
+			// ${Object.keys(this.mediaItems[0])}
+			// ${this.mediaItems}
+
+			////////////////////////////////////////////////////////
+			////////////////////////////////////////////////////////
 		});
-
-		// this.mediaItemsList = {
-		// 	mediaItems: this.mediaItems,
-		// 	dates: this.dates,
-		// 	page: this.page,
-		// 	totalPages: this.totalPages,
-		// 	totalResults: this.totalResults,
-		// 	mediaItemPoster: this.mediaItemPoster
-		// }
-		// console.log(this.mediaItemsList);
 	}
 }

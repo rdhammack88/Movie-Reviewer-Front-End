@@ -15,11 +15,11 @@ const routes: Routes = [
 	{ path: 'movies', component: MoviesListComponent },
 	{ path: 'tv', component: TvListComponent },
 	{ path: 'about', component: AboutComponent },
-	{ path: 'media/:id', component: MediaCardComponent },
-	{ path: 'upcoming', component: MediaListComponent },
-	{ path: 'nowPlaying', component: MediaListComponent },
-	{ path: 'popularMovies', component: MediaListComponent },
-	{ path: 'popularTv', component: MediaListComponent },
+	{ path: ':mediaType/:id', component: MediaCardComponent },
+	{ path: ':mediaType/upcoming/page/:page', component: MediaListComponent },
+	{ path: ':mediaType/nowPlaying/page/:page', component: MediaListComponent },
+	{ path: ':mediaType/popularMovies/page/:page', component: MediaListComponent },
+	{ path: ':mediaType/popularTv/page/:page', component: MediaListComponent },
 
 	{ path: 'theater/:page', component: MediaListComponent },
 	{ path: '**', component: NotFoundComponent}

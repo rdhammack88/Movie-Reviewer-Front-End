@@ -13,7 +13,12 @@ export class MediaService {
 	// implements MovieList
 	media: Object;
 	private mediaItems: MediaList[] = [];
-	page = '1';
+	// page = '1';
+	page = this.route.snapshot.url.length ? this.route.snapshot.url[3].path : '1';
+	displayTotalResults = [1, 20];
+
+
+
 
 	// page: number = 1;
 	// page: any = this.route.params.subscribe(response => console.log(response.page));
@@ -37,6 +42,11 @@ export class MediaService {
 
 	constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router) {}
 
+	/** */
+	convertToArray(num: number): any[] {
+		return Array(num);
+	}
+
 	/** Get Media Details */
 	getMediaDetails(url: string, movieId?: string) {
 		// console.log('Getting Movie');
@@ -54,9 +64,16 @@ export class MediaService {
 	// }
 
 	/** Get Media */
-	getMedia(url: string) {
+	getMedia(url: string, page?: string) {
+		// if (Number(page) !== 1) {
+		// 	this.displayTotalResults = [
+		// 		(Number(page) * this.mediaItems.length) - 19,
+		// 		Number(page) * this.mediaItems.length
+		// 	]
+		// }
+
 		console.log('Getting Movies');
-		const params = new HttpParams().set('api_key', this.API_KEY).set('page', this.page);
+		const params = new HttpParams().set('api_key', this.API_KEY).set('page', page ? page : this.page);
 		return this.http.get(this.mediaUrls[url], { params });
 	}
 

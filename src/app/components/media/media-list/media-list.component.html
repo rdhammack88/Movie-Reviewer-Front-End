@@ -1,25 +1,19 @@
 <div class="section media-list__wrapper">
-	<!-- media-list__wrapper -->
 	<h4>{{ mediaCategories[mediaPathUrl] }}</h4>
 	<div class="row media-list__row">
-		<!-- s6 m4 xl3 -->
-
 		<!-- [class.m3]="route === 'home'" [class.m2]="route !== 'home'" -->
 		<div class="col s6 m4 l3 media-item"
 			*ngFor="let mediaItem of mediaItemsList.mediaItems">
 			<!-- card-panel -->
 			<div class="card hoverable" [class.sno-padding]="route === 'home'">
 				<div class="card-image">
-					<a href="/media/{{mediaItem.id}}">
+					<a href="/{{ mediaType }}/{{mediaItem.id}}">
 						<img src="{{ mediaItemPoster }}{{ mediaItem.poster_path }}" class="mediaItem-poster" />
-						<!-- <span class="card-title mediaItem-title-link" *ngIf="route !== 'home'">{{
-							mediaItem.title
-						}}</span> -->
 					</a>
 				</div>
 				<div class="card-content" *ngIf="route === 'home'">
 
-						<a href="/media/{{mediaItem.id}}" class="media-title">
+						<a href="/{{ mediaType }}/{{mediaItem.id}}" class="media-title">
 							<span>{{ mediaItem.title || mediaItem.name }}</span>
 						</a>
 
@@ -29,39 +23,56 @@
 						<span class="add_favorite_media" title="Add to favorites">
 							<i class="material-icons">bookmark_border</i>
 						</span> <!-- bookmark -->
-
-					<!-- <span class="activator grey-text text-darken-4">
-
-							<a href="#" class="mediaItem-title" *ngIf="route === 'home'">{{
-								mediaItem.title | summary: 10
-							}}</a>
-
-						<i class="material-icons right pointer">more_vert</i>
-					</span> -->
-				</div>
-				<div class="card-reveal">
-					<!-- card-title -->
-					<span class="card-title grey-text text-darken-4" *ngIf="route !== 'home'">
-						<i class="material-icons right pointer">close</i>
-					</span>
-					<a href="/media/{{mediaItem.id}}" class="mediaItem-title">{{ mediaItem.title }}</a>
-					<p class="mediaItem-overview" *ngIf="route !== 'home'">
-						{{ mediaItem.overview | summary: 110 }} <a href="#!">Read More</a>
-					</p>
 				</div>
 			</div>
 		</div>
 	</div>
+
 	<div class="row center" *ngIf="route !== 'home'">
-		<div class="col s6">
+		<ul class="pagination">
+			<li
+				*ngIf="currentPage !== 1"
+				[class.disabled]="currentPage === 1">
+				<a href="{{ mediaType }}/{{ mediaPathUrl }}/page/{{ currentPage - 1 }}">
+					<i class="material-icons">chevron_left</i>
+				</a>
+			</li> <!-- *ngIf="totalPagesArr.length != totalPages" -->
+			<li
+				*ngFor="let item of totalPagesArr; let i = index"
+
+				[class.active]="(i + 1) === currentPage"
+				[class.waves-effect]="(i + 1) !== currentPage">
+				<a href="{{ mediaType }}/{{ mediaPathUrl }}/page/{{ i + 1 }}">{{ i + 1 }}</a>
+			</li>
+			<li
+				*ngIf="totalPagesArr?.length !== totalPages">
+				<span>...</span>
+				<a href="{{ mediaType }}/{{ mediaPathUrl }}/page/{{ totalPages }}">
+					{{ totalPages }}
+				</a>
+			</li>
+			<li
+				*ngIf="currentPage !== totalPages"
+				[class.disabled]="currentPage === totalPages"
+				class="waves-effect">
+				<a href="{{ mediaType }}/{{ mediaPathUrl }}/page/{{ currentPage + 1 }}">
+					<i class="material-icons">chevron_right</i>
+				</a>
+			</li>
+		</ul>
+		<p>Showing {{ displayTotalResults[0] }} - {{ displayTotalResults[1] }} of {{ totalResults }} results</p>
+	</div>
+
+	<!-- <div class="row center" *ngIf="route !== 'home'">
+		<div class="col s6" *ngIf="currentPage !== 1">
 			<button class="btn waves-effect" (click)="changePage('prev')">Prev</button>
 		</div>
-		<div class="col s6">
+		<div class="col s6" [class.right]="currentPage === 1" *ngIf="currentPage !== totalPages">
 			<button class="btn waves-effect" (click)="changePage('next')">Next</button>
 		</div>
-	</div>
+	</div> -->
 	<div class="show-more-media center-align" *ngIf="route === 'home'">
-		<a href="/{{ mediaPathUrl }}">
+		<a href="/{{ mediaType }}/{{ mediaPathUrl }}/page/1">
 			Show More
 			<i class="material-icons">chevron_right</i>
 		</a>
