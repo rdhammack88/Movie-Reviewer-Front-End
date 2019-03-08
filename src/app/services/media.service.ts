@@ -29,12 +29,12 @@ export class MediaService {
 	private mediaUrls = {
 		config: 'https://api.themoviedb.org/3/configuration',
 		movie: 'https://api.themoviedb.org/3/movie',
-		nowPlaying: 'https://api.themoviedb.org/3/movie/now_playing',
-		popularMovies: 'https://api.themoviedb.org/3/movie/popular',
-		popularTv: 'https://api.themoviedb.org/3/tv/popular',
+		upcoming_movies: 'https://api.themoviedb.org/3/movie/upcoming',
+		now_playing: 'https://api.themoviedb.org/3/movie/now_playing',
+		popular_movies: 'https://api.themoviedb.org/3/movie/popular',
+		popular_tv: 'https://api.themoviedb.org/3/tv/popular',
 		search: 'https://api.themoviedb.org/3/search/movie',
-		tvShow: 'https://api.themoviedb.org/3/tv',
-		upcoming: 'https://api.themoviedb.org/3/movie/upcoming'
+		tv: 'https://api.themoviedb.org/3/tv'
 	};
 	error: string;
 
@@ -48,10 +48,10 @@ export class MediaService {
 	}
 
 	/** Get Media Details */
-	getMediaDetails(url: string, movieId?: string) {
+	getMediaDetails(url: string, mediaId?: string) {
 		// console.log('Getting Movie');
 		const params = new HttpParams().set('api_key', this.API_KEY);
-		return this.http.get(`${this.mediaUrls[url]}/${movieId}`, { params });
+		return this.http.get(`${this.mediaUrls[url]}/${mediaId}`, { params });
 	}
 
 	/** Return Media Array */
