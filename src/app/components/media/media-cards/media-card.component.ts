@@ -14,33 +14,38 @@ import { Media } from 'src/app/interfaces/media';
 export class MediaCardComponent implements OnInit {
 	mediaId: string;
 	mediaData: Media;
+	mediaType: string;
 	constructor(
 		private mediaService: MediaService,
 		private route: ActivatedRoute,
 		private location: Location) {
 		// console.log(this.route.snapshot.paramMap.get('id'));
-		this.mediaId = this.route.snapshot.paramMap.get('id');
+		// this.mediaId = this.route.snapshot.paramMap.get('id');
+		// this.mediaType = this.route.snapshot.paramMap.get('mediaType');
 		// console.log(this.mediaId);
-		// this.getMedia();
+		// this.getMediaDetails();
 	}
 
 	ngOnInit() {
-		this.getMedia();
+		this.mediaId = this.route.snapshot.paramMap.get('id');
+		this.mediaType = this.route.snapshot.paramMap.get('mediaType');
+		this.getMediaDetails(this.mediaType, this.mediaId);
 	}
 
 	/** Get Media */
-	getMedia() {
-		this.mediaService.getMediaDetails('tvShow', this.mediaId).subscribe(media => {
+	getMediaDetails(url: string, mediaId = '') {
+		this.mediaService.getMediaDetails(url, mediaId).subscribe(media => {
 			console.log(media);
 			this.mediaData = media;
 			console.log(this.mediaData);
 		}),
-			error => {
-				this.mediaService.getMediaDetails('movie', this.mediaId).subscribe(media => {
-					console.log(media);
-					this.mediaData = media;
-					console.log(this.mediaData);
-				});
+			err => {
+				console.log(err)
+				// this.mediaService.getMediaDetails('movie', this.mediaId).subscribe(media => {
+				// 	console.log(media);
+				// 	this.mediaData = media;
+				// 	console.log(this.mediaData);
+				// });
 			};
 	}
 }
