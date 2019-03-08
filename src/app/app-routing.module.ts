@@ -16,10 +16,7 @@ const routes: Routes = [
 	{ path: 'tv', component: TvListComponent },
 	{ path: 'about', component: AboutComponent },
 	{ path: ':mediaType/:id', component: MediaCardComponent },
-	{ path: ':mediaType/upcoming/page/:page', component: MediaListComponent },
-	{ path: ':mediaType/nowPlaying/page/:page', component: MediaListComponent },
-	{ path: ':mediaType/popularMovies/page/:page', component: MediaListComponent },
-	{ path: ':mediaType/popularTv/page/:page', component: MediaListComponent },
+	{ path: ':mediaType/:mediaUrl/page/:page', component: MediaListComponent },
 
 	{ path: 'theater/:page', component: MediaListComponent },
 	{ path: '**', component: NotFoundComponent}
