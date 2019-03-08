@@ -16,7 +16,13 @@ export class HomeComponent implements OnInit {
 	// 	upcoming: 'upcoming'
 	// };
 
-	mediaUrls: Array<string> = ['upcoming', 'nowPlaying', 'popularMovies', 'popularTv'];
+	// mediaUrls: Array<string> = ['upcoming', 'nowPlaying', 'popularMovies', 'popularTv'];
+	mediaUrls: Array<string> = [
+		'upcoming_movies',
+		'now_playing',
+		'popular_movies',
+		'popular_tv'
+	];
 
 	constructor(
 		private mediaService: MediaService,
