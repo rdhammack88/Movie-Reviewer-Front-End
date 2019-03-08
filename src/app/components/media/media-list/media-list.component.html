@@ -1,69 +1,92 @@
-<div class="section media-list__wrapper">
+<div class="section media__list--wrapper">
 	<h4>{{ mediaCategories[mediaPathUrl] }}</h4>
-	<div class="row media-list__row">
-		<!-- [class.m3]="route === 'home'" [class.m2]="route !== 'home'" -->
-		<div class="col s6 m4 l3 media-item"
+	<div class="row media__list--row">
+		<!-- [class.m3]="routePath === 'home'" [class.m2]="routePath !== 'home'" -->
+		<div class="col s6 m4 l3 media__item"
 			*ngFor="let mediaItem of mediaItemsList.mediaItems">
 			<!-- card-panel -->
-			<div class="card hoverable" [class.sno-padding]="route === 'home'">
-				<div class="card-image">
-					<a href="/{{ mediaType }}/{{mediaItem.id}}">
-						<img src="{{ mediaItemPoster }}{{ mediaItem.poster_path }}" class="mediaItem-poster" />
+			<div class="card hoverable" [class.sno-padding]="routePath === 'home'">
+				<div class="card-image card__image">
+					<a class="card__image-link"
+					href="/{{ mediaType }}/{{mediaItem.id}}">
+						<img *ngIf="mediaItem.poster_path !== null" src="{{ mediaItemPosterUrl }}{{ mediaItem.poster_path }}" class="responsive-img card__image-poster" />
+						<img *ngIf="mediaItem.poster_path == null" src="assets/img/no-image-available-color.jpg"
+							class="responsive-img card__image-poster" />
 					</a>
 				</div>
-				<div class="card-content" *ngIf="route === 'home'">
+				<div class="card-content">
+					<!-- *ngIf="routePath === 'home'" -->
+					<a href="/{{ mediaType }}/{{mediaItem.id}}" class="media__title">
+						<span>{{ mediaItem.title || mediaItem.name }}</span>
+					</a>
 
-						<a href="/{{ mediaType }}/{{mediaItem.id}}" class="media-title">
-							<span>{{ mediaItem.title || mediaItem.name }}</span>
-						</a>
-
-						<span class="add_watchlist_media" title="Add to watchlist">
-							<i class="material-icons">add_circle_outline</i>
-						</span> <!-- check_circle -->
-						<span class="add_favorite_media" title="Add to favorites">
-							<i class="material-icons">bookmark_border</i>
-						</span> <!-- bookmark -->
+					<span class="media__add-watchlist" title="Add to watchlist">
+						<i class="material-icons">add_circle_outline</i>
+					</span> <!-- check_circle -->
+					<span class="media__add-favorite" title="Add to favorites">
+						<i class="material-icons">bookmark_border</i>
+					</span> <!-- bookmark -->
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="row center" *ngIf="route !== 'home'">
+	<div class="row center" *ngIf="routePath !== 'home'">
 		<ul class="pagination">
+			<li *ngIf="currentPage > 10" [class.disabled]="currentPage === 1">
+				<a href="{{ mediaType }}/{{ mediaPathUrl }}/page/{{ currentPage - 10 }}" class="pagination__arrow pagination__arrow--left pagination__arrow--double">
+					<i class="material-icons">fast_rewind</i>
+				</a>
+			</li>
+
 			<li
 				*ngIf="currentPage !== 1"
 				[class.disabled]="currentPage === 1">
-				<a href="{{ mediaType }}/{{ mediaPathUrl }}/page/{{ currentPage - 1 }}">
+				<a href="{{ mediaType }}/{{ mediaPathUrl }}/page/{{ currentPage - 1 }}" class="pagination__arrow pagination__arrow--left">
 					<i class="material-icons">chevron_left</i>
 				</a>
 			</li> <!-- *ngIf="totalPagesArr.length != totalPages" -->
-			<li
-				*ngFor="let item of totalPagesArr; let i = index"
 
-				[class.active]="(i + 1) === currentPage"
-				[class.waves-effect]="(i + 1) !== currentPage">
-				<a href="{{ mediaType }}/{{ mediaPathUrl }}/page/{{ i + 1 }}">{{ i + 1 }}</a>
-			</li>
+
+			<!-- <ul class="" *ngIf="currentPage < 5"> -->
+				<li *ngFor="let item of totalPagesArr; let i = index"
+					[class.active]="generatePageLinks(i) === currentPage" [class.waves-effect]="generatePageLinks(i) !== currentPage">
+					<a href="{{ mediaType }}/{{ mediaPathUrl }}/page/{{ generatePageLinks(i) }}">{{ generatePageLinks(i) }}</a>
+				</li>
+			<!-- </ul> -->
+
+			<!-- <ul class="" *ngIf="currentPage > 5 && i % 4 === 0">
+				<li *ngFor="let item of totalPagesArr; let i = index"
+					[class.active]="generatePageLinks(i, 4) === currentPage"
+					[class.waves-effect]="generatePageLinks(i) !== currentPage">
+					<a href="{{ mediaType }}/{{ mediaPathUrl }}/page/{{ generatePageLinks(i) }}">{{ generatePageLinks((i)) }}</a>
+				</li>
+			</ul> -->
+
 			<li
-				*ngIf="totalPagesArr?.length !== totalPages">
-				<span>...</span>
+				*ngIf="totalPagesArr?.length !== totalPages && totalPagesArr?.length > 5 && totalPages - currentPage > 5">
+				&nbsp;&nbsp;&nbsp;&nbsp;<span>...</span>
 				<a href="{{ mediaType }}/{{ mediaPathUrl }}/page/{{ totalPages }}">
 					{{ totalPages }}
 				</a>
 			</li>
 			<li
 				*ngIf="currentPage !== totalPages"
-				[class.disabled]="currentPage === totalPages"
-				class="waves-effect">
-				<a href="{{ mediaType }}/{{ mediaPathUrl }}/page/{{ currentPage + 1 }}">
+				[class.disabled]="currentPage === totalPages">
+				<a href="{{ mediaType }}/{{ mediaPathUrl }}/page/{{ currentPage + 1 }}" class="pagination__arrow pagination__arrow--right">
 					<i class="material-icons">chevron_right</i>
+				</a>
+			</li>
+			<li *ngIf="totalPages - currentPage >= 10 " [class.disabled]="currentPage === totalPages">
+				<a href="{{ mediaType }}/{{ mediaPathUrl }}/page/{{ currentPage + 10 }}" class="pagination__arrow pagination__arrow--right pagination__arrow--double">
+					<i class="material-icons">fast_forward</i>
 				</a>
 			</li>
 		</ul>
 		<p>Showing {{ displayTotalResults[0] }} - {{ displayTotalResults[1] }} of {{ totalResults }} results</p>
 	</div>
 
-	<!-- <div class="row center" *ngIf="route !== 'home'">
+	<!-- <div class="row center" *ngIf="routePath !== 'home'">
 		<div class="col s6" *ngIf="currentPage !== 1">
 			<button class="btn waves-effect" (click)="changePage('prev')">Prev</button>
 		</div>
@@ -71,7 +94,7 @@
 			<button class="btn waves-effect" (click)="changePage('next')">Next</button>
 		</div>
 	</div> -->
-	<div class="show-more-media center-align" *ngIf="route === 'home'">
+	<div class="media__show-more center-align" *ngIf="routePath === 'home'">
 		<a href="/{{ mediaType }}/{{ mediaPathUrl }}/page/1">
 			Show More
 			<i class="material-icons">chevron_right</i>
