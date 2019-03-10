@@ -2,12 +2,16 @@
 <nav class="blue darken-3">
 	<div class="container">
 		<div class="nav-wrapper">
-			<a href="/" class="brand-logo left">{{ title.toUpperCase() }}</a>
+			<a
+				routerLink="/"
+				class="brand-logo left">
+				{{ title.toUpperCase() }}
+			</a>
 			<ul class="right hide-on-med-and-down">
-				<li><a href="/">Home</a></li>
-				<li><a href="/movies">Movies</a></li>
-				<li><a href="/tv">TV</a></li>
-				<li><a href="/about">About</a></li>
+				<li><a routerLink="/">Home</a></li>
+				<li><a routerLink="/movies">Movies</a></li>
+				<li><a routerLink="/tv">TV</a></li>
+				<li><a routerLink="/about">About</a></li>
 
 				<!-- DROPDOWN TRIGGER -->
 				<!-- <li>
@@ -31,10 +35,10 @@
 				<i class="material-icons">menu</i>
 			</a>
 			<ul class="side-nav right" id="mobile-nav"> <!--  materialize="sideNav" -->
-				<li><a href="/">Home</a></li>
-				<li><a href="/movies">Movies</a></li>
-				<li><a href="/tv">TV</a></li>
-				<li><a href="/about">About</a></li>
+				<li><a routerLink="/">Home</a></li>
+				<li><a routerLink="/movies">Movies</a></li>
+				<li><a routerLink="/tv">TV</a></li>
+				<li><a routerLink="/about">About</a></li>
 			</ul>
 		</div>
 	</div>
