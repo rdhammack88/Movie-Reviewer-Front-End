@@ -1,10 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
 // import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 
 import { MediaService } from 'src/app/services/media.service';
 import { MediaList } from '../../../interfaces/media-list';
 import { Media } from 'src/app/interfaces/media';
+import { switchMap } from 'rxjs/operators';
+
+import { Observable } from 'rxjs';
+// import { Observable } from 'rxjs/internal/Observable';
 
 @Component({
 	selector: 'media-list',
@@ -25,10 +29,13 @@ export class MediaListComponent implements OnInit {
 		'popular_tv': 'Popular Tv'
 	}
 
+	routePath: string; //: Observable<string>; // string;
+	// routePath = this.route.snapshot.url.length ? this.route.snapshot.url[1].path : 'home';
 
-	routePath = this.route.snapshot.url.length ? this.route.snapshot.url[1].path : 'home';
+	// routePath = this.route.snapshot.paramMap.has('mediaUrl') ? this.route.snapshot.paramMap.get('mediaUrl') : 'home';
 
-	currentPage: number = this.route.snapshot.url.length ? Number(this.route.snapshot.url[3].path) : 1;
+	// currentPage: number = this.route.snapshot.url.length ? Number(this.route.snapshot.url[3].path) : 1;
+	currentPage: number;
 	pageCounter: number = this.currentPage;
 
 	mediaItems: MediaList[] = [];
@@ -47,10 +54,52 @@ export class MediaListComponent implements OnInit {
 	) {}
 
 	ngOnInit() {
+
+		// this.userSubscription = this.route.params.subscribe((params: Params) => {
+
+		// })
+
+		// this.route.paramMap.
+
+
+		// this.routePath = this.route.paramMap.pipe(switchMap((params: ParamMap) => {
+
+		// }))
+
+		// this.routePath = this.route.paramMap.pipe(switchMap((params: ParamMap) => {
+		// 	this.getMedia(params.get('mediaUrl'), params.get('page'));
+		// })).subscribe(data => {
+
+		// })
+
+		////////////////////////////////////////////////
+		////////////////////////////////////////////////
+		////////////////////////////////////////////////
+		// this.route.paramMap.pipe(switchMap((params: ParamMap) => {
+		// 	this.routePath = params.get('mediaUrl');
+		// 	this.currentPage = Number(params.get('page'));
+		// })).subscribe(data => {
+		// 	this.getMedia(this.routePath, String(this.currentPage));
+		// })
+		///////////////////////////////////////////////
+		///////////////////////////////////////////////
+		///////////////////////////////////////////////
+
+		// this.route.params.subscribe(param => {
+		// 	this.routePath = this.route.snapshot.paramMap.has('mediaUrl') ?  this.route.snapshot.paramMap.get('mediaUrl') : 'home';
+		// })
+
+
+
+		/////////////////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////////
 		/**
 		 * If routePath is not the homepage, reset mediaPathUrl to the routePath path
 		 */
-		this.mediaPathUrl = this.routePath === 'home' ? this.mediaPathUrl : this.routePath;
+		// this.mediaPathUrl = this.routePath === 'home' ? this.mediaPathUrl : this.routePath;
 
 		// this.mediaTopicUrl = this.mediaCategories[this.mediaPathUrl].toLowerCase().replace(' ', '_');
 
@@ -58,7 +107,22 @@ export class MediaListComponent implements OnInit {
 		 * Request data from the api server to return
 		 * the requested data based on the url input
 		 */
-		this.getMedia(this.mediaPathUrl, String(this.currentPage));
+		// this.getMedia(this.mediaPathUrl, String(this.currentPage));
+		this.getMedia();
+
+
+
+		/////////////////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////////
+
+
+		////////////////////////////////////////////////////////
+		////////////////////////TEST////////////////////////////
+		////////////////////////////////////////////////////////
+
 
 		// this.displayTotalResults = [
 		// 	(this.currentPage * this.mediaItems.length) - 19,
@@ -71,7 +135,6 @@ export class MediaListComponent implements OnInit {
 		// 	this.currentPage * (this.mediaItems.length - 19),
 		// 	this.currentPage * this.mediaItems.length
 		// ]
-
 
 
 		////////////////////////////////////////////////////////
@@ -92,6 +155,10 @@ export class MediaListComponent implements OnInit {
 
 		////////////////////////////////////////////////////////
 		////////////////////////////////////////////////////////
+	}
+
+	ngOnDestroy(): void {
+		// this.routePath.unsubscribe();
 	}
 
 
@@ -132,8 +199,16 @@ export class MediaListComponent implements OnInit {
 	}
 
 	/** Get Media */
-	getMedia(url: string, page = String(this.currentPage)) {
-		this.mediaService.getMedia(url, page).subscribe(media => {
+	getMedia() {
+	// getMedia(url: string, page = String(this.currentPage)) {
+		this.routePath = this.route.snapshot.paramMap.has('mediaUrl') ? this.route.snapshot.paramMap.get('mediaUrl') : 'home';
+
+		this.currentPage = this.route.snapshot.paramMap.has('page') ? Number(this.route.snapshot.paramMap.get('page')) : 1;
+
+		this.mediaPathUrl = this.routePath;
+
+		this.mediaService.getMedia(this.routePath, String(this.currentPage)).subscribe(media => {
+		// this.mediaService.getMedia(url, page).subscribe(media => {
 			this.mediaItems = media['results'];
 			this.dates = media['dates'];
 			this.currentPage = this.currentPage ? this.currentPage : media['page'];
@@ -234,7 +309,7 @@ export class MediaListComponent implements OnInit {
 			////////////////////////////////////////////////////////
 
 			/** DEBUGGING */
-			console.log(`Input Url String:\t\t\t ${url}`);
+			// console.log(`Input Url String:\t\t\t ${url}`);
 			console.log(`Return Observable Object:\n\t\t ${Object.keys(media)}`);
 			console.log(`Media Items List Object:\n\t\t ${Object.keys(this.mediaItemsList)}`);
 			console.log(`Total Pages Array:\t\t ${this.totalPagesArr}`);
