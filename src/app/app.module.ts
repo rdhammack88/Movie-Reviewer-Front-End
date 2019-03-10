@@ -19,6 +19,10 @@ import { MoviesListComponent } from './components/movies-list/movies-list.compon
 import { TvListComponent } from './components/tv-list/tv-list.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { MediaDetailsComponent } from './components/media/media-details/media-details.component';
+import { LoginComponent } from './components/admin/login/login.component';
+import { RegisterComponent } from './components/admin/register/register.component';
+import { DashboardComponent } from './components/admin/dashboard/dashboard.component';
 
 @NgModule({
 	declarations: [
@@ -32,7 +36,11 @@ import { FooterComponent } from './components/footer/footer.component';
 		MoviesListComponent,
 		TvListComponent,
 		NotFoundComponent,
-		FooterComponent
+		FooterComponent,
+		MediaDetailsComponent,
+		LoginComponent,
+		RegisterComponent,
+		DashboardComponent
 	],
 	imports: [BrowserModule, AppRoutingModule, HttpClientModule, MaterializeModule],
 	providers: [MediaService],
