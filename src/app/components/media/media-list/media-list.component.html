@@ -8,7 +8,7 @@
 			<div class="card hoverable" [class.sno-padding]="routePath === 'home'">
 				<div class="card-image card__image">
 					<a class="card__image-link"
-					href="/{{ mediaType }}/{{mediaItem.id}}">
+					routerLink="/{{ mediaType }}/{{mediaItem.id}}">
 						<img *ngIf="mediaItem.poster_path !== null" src="{{ mediaItemPosterUrl }}{{ mediaItem.poster_path }}" class="responsive-img card__image-poster" />
 						<img *ngIf="mediaItem.poster_path == null" src="assets/img/no-image-available-color.jpg"
 							class="responsive-img card__image-poster" />
@@ -16,7 +16,7 @@
 				</div>
 				<div class="card-content">
 					<!-- *ngIf="routePath === 'home'" -->
-					<a href="/{{ mediaType }}/{{mediaItem.id}}" class="media__title">
+					<a routerLink="/{{ mediaType }}/{{mediaItem.id}}" class="media__title">
 						<span>{{ mediaItem.title || mediaItem.name }}</span>
 					</a>
 
@@ -34,7 +34,7 @@
 	<div class="row center" *ngIf="routePath !== 'home'">
 		<ul class="pagination">
 			<li *ngIf="currentPage > 10" [class.disabled]="currentPage === 1">
-				<a href="{{ mediaType }}/{{ mediaPathUrl }}/page/{{ currentPage - 10 }}" class="pagination__arrow pagination__arrow--left pagination__arrow--double">
+				<a routerLink="/{{ mediaType }}/{{ mediaPathUrl }}/page/{{ currentPage - 10 }}" class="pagination__arrow pagination__arrow--left pagination__arrow--double">
 					<i class="material-icons">fast_rewind</i>
 				</a>
 			</li>
@@ -42,7 +42,7 @@
 			<li
 				*ngIf="currentPage !== 1"
 				[class.disabled]="currentPage === 1">
-				<a href="{{ mediaType }}/{{ mediaPathUrl }}/page/{{ currentPage - 1 }}" class="pagination__arrow pagination__arrow--left">
+				<a routerLink="/{{ mediaType }}/{{ mediaPathUrl }}/page/{{ currentPage - 1 }}" class="pagination__arrow pagination__arrow--left">
 					<i class="material-icons">chevron_left</i>
 				</a>
 			</li> <!-- *ngIf="totalPagesArr.length != totalPages" -->
@@ -51,7 +51,7 @@
 			<!-- <ul class="" *ngIf="currentPage < 5"> -->
 				<li *ngFor="let item of totalPagesArr; let i = index"
 					[class.active]="generatePageLinks(i) === currentPage" [class.waves-effect]="generatePageLinks(i) !== currentPage">
-					<a href="{{ mediaType }}/{{ mediaPathUrl }}/page/{{ generatePageLinks(i) }}">{{ generatePageLinks(i) }}</a>
+					<a routerLink="/{{ mediaType }}/{{ mediaPathUrl }}/page/{{ generatePageLinks(i) }}">{{ generatePageLinks(i) }}</a>
 				</li>
 			<!-- </ul> -->
 
@@ -59,26 +59,26 @@
 				<li *ngFor="let item of totalPagesArr; let i = index"
 					[class.active]="generatePageLinks(i, 4) === currentPage"
 					[class.waves-effect]="generatePageLinks(i) !== currentPage">
-					<a href="{{ mediaType }}/{{ mediaPathUrl }}/page/{{ generatePageLinks(i) }}">{{ generatePageLinks((i)) }}</a>
+					<a routerLink="{{ mediaType }}/{{ mediaPathUrl }}/page/{{ generatePageLinks(i) }}">{{ generatePageLinks((i)) }}</a>
 				</li>
 			</ul> -->
 
 			<li
 				*ngIf="totalPagesArr?.length !== totalPages && totalPagesArr?.length > 5 && totalPages - currentPage > 5">
 				&nbsp;&nbsp;&nbsp;&nbsp;<span>...</span>
-				<a href="{{ mediaType }}/{{ mediaPathUrl }}/page/{{ totalPages }}">
+				<a routerLink="/{{ mediaType }}/{{ mediaPathUrl }}/page/{{ totalPages }}">
 					{{ totalPages }}
 				</a>
 			</li>
 			<li
 				*ngIf="currentPage !== totalPages"
 				[class.disabled]="currentPage === totalPages">
-				<a href="{{ mediaType }}/{{ mediaPathUrl }}/page/{{ currentPage + 1 }}" class="pagination__arrow pagination__arrow--right">
+				<a routerLink="/{{ mediaType }}/{{ mediaPathUrl }}/page/{{ currentPage + 1 }}" class="pagination__arrow pagination__arrow--right">
 					<i class="material-icons">chevron_right</i>
 				</a>
 			</li>
 			<li *ngIf="totalPages - currentPage >= 10 " [class.disabled]="currentPage === totalPages">
-				<a href="{{ mediaType }}/{{ mediaPathUrl }}/page/{{ currentPage + 10 }}" class="pagination__arrow pagination__arrow--right pagination__arrow--double">
+				<a routerLink="/{{ mediaType }}/{{ mediaPathUrl }}/page/{{ currentPage + 10 }}" class="pagination__arrow pagination__arrow--right pagination__arrow--double">
 					<i class="material-icons">fast_forward</i>
 				</a>
 			</li>
@@ -95,7 +95,7 @@
 		</div>
 	</div> -->
 	<div class="media__show-more center-align" *ngIf="routePath === 'home'">
-		<a href="/{{ mediaType }}/{{ mediaPathUrl }}/page/1">
+		<a routerLink="/{{ mediaType }}/{{ mediaPathUrl }}/page/1">
 			Show More
 			<i class="material-icons">chevron_right</i>
 		</a>
